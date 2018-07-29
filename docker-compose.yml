@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+    restart: always
+
+  adtech-install-service:
+    build: ./adtech-install-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+
+  adtech-query-service:
+    build: ./adtech-query-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+
+
+
+
