@@ -1,12 +1,14 @@
 version: "3.3"
 
 services:
-  mongo:
+  mongodb:
     image: mongo
+    container_name: springboot-mongo
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
-      - ./data/mongo:/data/db
+      - ./data/springboot-mongo-data:/data/db
+      - ./data/springboot-mongo-bkp:/data/bkp
     restart: always
 
   adtech-install-service:
@@ -14,14 +16,14 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - mongo
+      - mongodb
 
   adtech-query-service:
     build: ./adtech-query-service
     ports:
       - "8081:8081"
     depends_on:
-      - mongo
+      - mongodb
 
 
 
